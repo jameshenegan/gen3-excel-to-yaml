@@ -15,7 +15,6 @@ from math import isnan
 name_of_node = sys.argv[1]
 print(f'Name of Node: {name_of_node}')
 
-
 def sortdictionary(dic):
     """Returns a dictionary sorted on keys"""
 
@@ -862,8 +861,11 @@ def build_yaml(nodes_in_file,
     yaml.indent(offset = 2, sequence = 4, mapping = 2)
     yaml.representer.add_representer(type(None), my_represent_none)
 
+    num_files_created = 0
+
     for key, val in node_dict.items():
         if key == name_of_node:        
+            num_files_created += 1
             with open('{0}{1}.yaml'.format(out_dir, key), 'w') as file:
                 for block in val:                
                     if 'properties' in block:                    
@@ -890,9 +892,12 @@ def build_yaml(nodes_in_file,
                     else:
                         yaml.dump(block, file)
                         file.write('\n')
+    
+    return num_files_created
 
-    print('Done')
 
 
-build_yaml("nodes_schema_dcf.xlsx", "", "", "", "", "xlsx", name_of_node)
+num_files_created = build_yaml("nodes_schema_dcf.xlsx", "", "", "", "", "xlsx", name_of_node)
+print("----------------------")
 print("Done")
+print(f"Number of files created: {num_files_created}")
