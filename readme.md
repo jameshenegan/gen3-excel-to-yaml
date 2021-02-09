@@ -22,7 +22,7 @@ Command on Mac:
 docker run --rm -v $(pwd):/app -e node_name="study" x2y
 ```
 
-Command on Windows:
+Command on Windows or Linux:
 
 ```
 docker run --rm -v /$(pwd):/app -e node_name="study" x2y
@@ -34,4 +34,21 @@ docker run --rm -v /$(pwd):/app -e node_name="study" x2y
 diagnosis
 study
 subject
+```
+
+# Reproducible Example
+
+Using an Amazon Linux 2 AMI.
+
+```
+sudo amazon-linux-extras install docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+sudo chkconfig docker on
+sudo yum install -y git
+sudo reboot
+git clone https://github.com/jameshenegan/gen3-excel-to-yaml.git
+cd gen3-excel-to-yaml/
+docker build -t x2y .
+docker run --rm -v /$(pwd):/app -e node_name="study" x2y
 ```
